@@ -30,20 +30,15 @@ identity = {
     }
 }
 
-
-
 class Client:
     def __init__(self) -> None:
-        # we want the main loop to 
-        asyncio.run(main())
+        self.gateway = ""
         pass
-    def login(self, token):
-        r = requests.get('https://discord.com/api/v9/gateway/bot', headers={"Authorization":f"Bot {data['token']}"})
-        answer = r.json()
-        # login should call a main loop
-    def mainLoop(self):
-        pass 
-        
+    # async function for getting our gateway url, can't do anything without it!
+    # needs the token, can be given as plaintext or whatever
+    async def login(self, token):
+        r = requests.get('https://discord.com/api/v9/gateway/bot', headers={"Authorization":f"Bot {token}"})
+        self.gateway = r.json()["url"]         
 
 # might need to consider changing the name 
 async def event(intent: str, func):
