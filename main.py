@@ -86,17 +86,23 @@ testJson = {
     ]
 }
 
+
+# NOTES FOR FUTURE CODE: I am thinking here that we just need a loop that checks what kind of t we receive, and such we can reuse the code 
+# for multiple different events ? I am not 100% sure
 async def main():
     # we use the url given
     r = requests.get('https://discord.com/api/v9/gateway/bot', headers={"Authorization":f"Bot {data['token']}"})
     answer = r.json()
-
-    async with websockets.connect(answer["url"]) as websocket:
-        # 
+    # we can tweak this a lot and make the code "better", basically commenting everything here for now for future me
+    async with websockets.connect(answer["url"]) as websocket: 
+        #returns "heartbeat" interval
         message = await websocket.recv()
         await websocket.send(json.dumps(identity))
+        # gives the "ready state" -> iirc, after this we can start heartbeating at the specified interval from above (?)
         message = await websocket.recv()
-        #print(message)
+        # here for debugging purposes
+        print(message)
+
 
 async def registerCommands():
     r = requests.post(url,json=testJson, headers={"Authorization":f"Bot {data['token']}"})
